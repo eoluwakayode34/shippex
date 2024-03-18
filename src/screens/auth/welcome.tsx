@@ -4,9 +4,10 @@
  *
  * @format
  */
-
-import React, {useEffect, useRef} from 'react';
-import {View, StyleSheet, Animated} from 'react-native';
+import * as React from 'react';
+import {Text} from 'react-native-paper';
+import {useEffect, useRef} from 'react';
+import {View, StyleSheet, Animated, TouchableOpacity} from 'react-native';
 import {ShippexLogo} from '../../assets/image/authImage';
 import {appColors} from '../../utils/colors';
 
@@ -15,7 +16,7 @@ function WelcomeScreen(): React.JSX.Element {
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 2000,
+      duration: 1000,
       useNativeDriver: true,
     }).start();
   }, [fadeAnim]);
@@ -28,6 +29,19 @@ function WelcomeScreen(): React.JSX.Element {
         }}>
         <ShippexLogo />
       </Animated.View>
+
+      <View style={styles.buttonContainer}>
+        <Animated.View
+          style={{
+            opacity: fadeAnim,
+          }}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText} variant="bodyLarge">
+              Login
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
+      </View>
     </View>
   );
 }
@@ -39,6 +53,24 @@ const styles = StyleSheet.create({
     backgroundColor: appColors.primary,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 12,
+    paddingVertical: 14,
+    width: '100%',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  buttonContainer: {
+    width: '100%',
+    paddingBottom: 36,
+    paddingHorizontal: 20,
+  },
+  buttonText: {
+    color: appColors.primary,
   },
 });
 
