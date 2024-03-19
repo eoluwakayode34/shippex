@@ -11,10 +11,15 @@ export const loginValidationSchema = yup.object().shape({
       const usernameRegex = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
       return emailRegex.test(value) || usernameRegex.test(value);
     }),
-  url: yup.string().url('Must be a valid URL').required('URL is required'),
   password: yup
     .string()
-    .password()
-    .min(8, 'Password must be at least 8 characters')
+    .min(5, 'Password must be at least 8 characters')
     .required('Password is required'),
+  url: yup
+    .string()
+    .matches(
+      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      'Enter correct url!',
+    )
+    .required('Please enter website'),
 });

@@ -5,21 +5,43 @@
  * @format
  */
 import React from 'react';
-import {Text} from 'react-native-paper';
+import {ActivityIndicator, Text} from 'react-native-paper';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {appColors} from '../../../utils/colors';
 
 type AppButtonProps = {
   onPress: () => void;
   text: string;
+  active: boolean;
+  isLoading: boolean;
 };
 
-function SubmitButton({onPress, text}: AppButtonProps): JSX.Element {
+function SubmitButton({
+  onPress,
+  text,
+  active,
+  isLoading,
+}: AppButtonProps): JSX.Element {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.button}>
-      <Text style={styles.buttonText} variant="bodyLarge">
-        {text}
-      </Text>
+    <TouchableOpacity
+      disabled={isLoading}
+      onPress={onPress}
+      style={[
+        styles.button,
+        {backgroundColor: active ? appColors.primary : '#EAE7F2'},
+      ]}>
+      {isLoading ? (
+        <ActivityIndicator size={'small'} color="#fff" />
+      ) : (
+        <Text
+          style={[
+            styles.buttonText,
+            {color: active ? appColors.white : '#A7A3B3'},
+          ]}
+          variant="bodyLarge">
+          {text}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 }

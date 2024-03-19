@@ -6,7 +6,7 @@
  */
 
 import React, {useState} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 
 import {TextInput, useTheme} from 'react-native-paper';
 import {appColors} from '../../../utils/colors';
@@ -24,31 +24,20 @@ function FormInput({label, error, style, ...otherProps}: any): JSX.Element {
   };
 
   return (
-    <View style={{width: '100%'}}>
+    <View style={styles.container}>
       <View
-        style={{
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          width: '100%',
-          marginTop: 20,
-          backgroundColor: appColors.inputBg,
-          paddingHorizontal: 14,
-          borderRadius: 10,
-          borderWidth: 1,
-          borderColor: isFocused ? appColors.primary : appColors.white,
-          paddingVertical: 2,
-          flexDirection: 'row',
-        }}>
-    
+        style={[
+          styles.inputContainer,
+          {borderColor: isFocused ? appColors.primary : appColors.transparent},
+        ]}>
         <TextInput
           mode="flat"
           label={
             <Text
-              style={{
-                color: isFocused ? appColors.black300 : appColors.black200,
-                backgroundColor: appColors.transparent,
-                paddingHorizontal: 2,
-              }}>
+              style={[
+                styles.labelText,
+                {color: isFocused ? appColors.black300 : appColors.black200},
+              ]}>
               {label}
             </Text>
           }
@@ -62,35 +51,62 @@ function FormInput({label, error, style, ...otherProps}: any): JSX.Element {
             },
           }}
           placeholder={label}
-          style={[
-            {
-              width: '100%',
-              backgroundColor: appColors.transparent,
-              fontSize: 16,
-              color: appColors.transparent,
-              height: 60,
-              paddingHorizontal: 6,
-            },
-            style,
-          ]}
+          style={[styles.input, style]}
           error={error}
           activeOutlineColor={appColors.primary}
           outlineColor={appColors.white}
           textColor={appColors.primary}
           placeholderTextColor={appColors.black200}
-          underlineStyle={{
-            borderWidth: 0,
-            borderRadius: 5,
-            backgroundColor: appColors.inputBg,
-          }}
+          underlineStyle={styles.underlineStyle}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          left={otherProps.left && isFocused ? otherProps.left : null}
           {...otherProps}
         />
       </View>
-      {error && <Text style={{color: 'red', fontSize: 12}}>{error}</Text>}
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 }
 
 export default FormInput;
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+  },
+  inputContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: '100%',
+    marginTop: 20,
+    backgroundColor: appColors.inputBg,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    borderWidth: 1,
+    paddingVertical: 2,
+    flexDirection: 'row',
+  },
+  labelText: {
+    color: appColors.black200,
+    backgroundColor: appColors.transparent,
+    paddingHorizontal: 2,
+  },
+  input: {
+    width: '100%',
+    backgroundColor: appColors.transparent,
+    fontSize: 16,
+    color: appColors.transparent,
+    height: 60,
+    paddingHorizontal: 6,
+  },
+  underlineStyle: {
+    borderWidth: 0,
+    borderRadius: 5,
+    backgroundColor: appColors.inputBg,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+  },
+});

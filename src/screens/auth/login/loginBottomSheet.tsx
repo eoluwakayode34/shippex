@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {Text, TextInput} from 'react-native-paper';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
@@ -7,16 +7,43 @@ import {appColors} from '../../../utils/colors';
 // import {TextInputUrl} from '../../../components/ui/input/textInput';
 import {Formik} from 'formik';
 import {loginValidationSchema} from '../../../utils/validation-schema/authValidationSchema';
-import AppButton from '../../../components/ui/button/mainButton';
 import FormInput from '../../../components/ui/input/textInput';
 import SubmitButton from '../../../components/ui/button/formButton';
+import {Easing} from 'react-native-reanimated';
+import {useMutation} from 'react-query';
+import {postLogin} from '../../../api/mutation/auth';
+import {useUserStore} from '../../../stores/userStore';
 
 interface LoginBottomSheetProps {
   sheetRef: React.RefObject<BottomSheet>;
 }
 
 const LoginBottomSheet: React.FC<LoginBottomSheetProps> = ({sheetRef}) => {
+  const setUser = useUserStore(state => state.setUser);
+  const loadData = useUserStore(state => state.loadData);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const loginMutation = useMutation(
+    (values: {emailOrUsername: string; password: string}) =>
+      postLogin(values.emailOrUsername, values.password),
+    {
+      onSuccess: (data): void => {
+        setUser(data);
+      },
+      onError: response => {
+        console.log(response);
+      },
+    },
+  );
+
   const snapPoints = useMemo(() => ['98%'], []);
+
+  const handleSubmitLogin = (values: {emailOrUsername: any; password: any}) => {
+    loginMutation.mutate(values);
+  };
 
   return (
     <>
@@ -29,7 +56,9 @@ const LoginBottomSheet: React.FC<LoginBottomSheetProps> = ({sheetRef}) => {
           <View style={styles.container}>
             <TouchableOpacity
               style={styles.cancelContainer}
-              onPress={() => sheetRef.current?.close()}>
+              onPress={() =>
+                sheetRef.current?.close({duration: 300, easing: Easing.linear})
+              }>
               <CancelIcon />
               <Text style={styles.cancelText} variant="bodyMedium">
                 Cancel
@@ -46,26 +75,21 @@ const LoginBottomSheet: React.FC<LoginBottomSheetProps> = ({sheetRef}) => {
                 <Formik
                   initialValues={{emailOrUsername: '', url: '', password: ''}}
                   validationSchema={loginValidationSchema}
-                  onSubmit={values => console.log(values)}>
+                  onSubmit={handleSubmitLogin}>
                   {({handleChange, handleSubmit, values, errors, touched}) => (
                     <View>
-                      <View
-                        style={{
-                          width: '100%',
-                          flexDirection: 'column',
-                          height: '80%',
-                        }}>
+                      <View style={styles.inputContainer}>
                         <FormInput
                           label="URL"
                           left={<TextInput.Affix text="https:// | " />}
                           onChangeText={handleChange('url')}
-                          value={values.url}
+                          value={values.url.toLowerCase()}
                           error={touched.url && errors.url ? errors.url : null}
                         />
                         <FormInput
                           label="Username / Email"
                           onChangeText={handleChange('emailOrUsername')}
-                          value={values.emailOrUsername}
+                          value={values.emailOrUsername.toLowerCase().trim()}
                           error={
                             touched.emailOrUsername && errors.emailOrUsername
                               ? errors.emailOrUsername
@@ -85,7 +109,18 @@ const LoginBottomSheet: React.FC<LoginBottomSheetProps> = ({sheetRef}) => {
                         />
                       </View>
 
-                      <SubmitButton text="Login" onPress={handleSubmit} />
+                      <SubmitButton
+                        isLoading={loginMutation.isLoading}
+                        active={
+                          values.emailOrUsername &&
+                          values.password &&
+                          values.url
+                            ? true
+                            : false
+                        }
+                        text="Login"
+                        onPress={handleSubmit}
+                      />
                     </View>
                   )}
                 </Formik>
@@ -123,6 +158,11 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     backgroundColor: 'red',
+  },
+  inputContainer: {
+    width: '100%',
+    flexDirection: 'column',
+    height: '80%',
   },
 });
 

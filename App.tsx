@@ -5,11 +5,12 @@
  * @format
  */
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import Splash from './src/components/layout/splash';
 import WelcomeScreen from './src/screens/auth/welcome';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {QueryClient, QueryClientProvider} from 'react-query';
 
 import {
   MD3LightTheme as DefaultTheme,
@@ -17,6 +18,10 @@ import {
   configureFonts,
 } from 'react-native-paper';
 import {Platform} from 'react-native';
+import {useUserStore} from './src/stores/userStore';
+import DashboardScreen from './src/screens/dashboard/dashboard';
+
+const queryClient = new QueryClient();
 
 const fontConfig = {
   customVariant: {
@@ -61,14 +66,23 @@ const theme = {
 
 function App(): React.JSX.Element {
   const [closeSplash, setCloseSplash] = useState(true);
+  const user = useUserStore(state => state.user);
+  const loadData = useUserStore(state => state.loadData);
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <PaperProvider theme={theme}>
-        {closeSplash ? (
-          <Splash setCloseSplash={setCloseSplash} />
-        ) : (
-          <WelcomeScreen />
-        )}
+        <QueryClientProvider client={queryClient}>
+          {closeSplash ? (
+            <Splash setCloseSplash={setCloseSplash} />
+          ) : user ? (
+            <DashboardScreen />
+          ) : (
+            <WelcomeScreen />
+          )}
+        </QueryClientProvider>
       </PaperProvider>
     </GestureHandlerRootView>
   );

@@ -9,13 +9,9 @@ import {useEffect, useRef} from 'react';
 import {View, StyleSheet, Animated} from 'react-native';
 import {ShippexLogo} from '../../assets/image/authImage';
 import {appColors} from '../../utils/colors';
-import LoginBottomSheet from './login/loginBottomSheet';
 import AppButton from '../../components/ui/button/mainButton';
-import BottomSheet from '@gorhom/bottom-sheet';
-import {Easing} from 'react-native-reanimated';
 
-function WelcomeScreen(): React.JSX.Element {
-  const loginSheetRef = useRef<BottomSheet>(null);
+function DashboardScreen(): React.JSX.Element {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const strollIn = useRef(new Animated.Value(200)).current;
   useEffect(() => {
@@ -49,19 +45,10 @@ function WelcomeScreen(): React.JSX.Element {
               translateY: strollIn,
               opacity: fadeAnim,
             }}>
-            <AppButton
-              text="Login"
-              onPress={() =>
-                loginSheetRef.current?.expand({
-                  duration: 550,
-                  easing: Easing.linear,
-                })
-              }
-            />
+            <AppButton text="user now loggedin" onPress={() => {}} />
           </Animated.View>
         </View>
       </View>
-      <LoginBottomSheet sheetRef={loginSheetRef} />
     </>
   );
 }
@@ -82,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WelcomeScreen;
+export default DashboardScreen;
