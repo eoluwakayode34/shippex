@@ -1,10 +1,15 @@
 import React, {useMemo} from 'react';
-import {Text} from 'react-native-paper';
+import {Text, TextInput} from 'react-native-paper';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {CancelIcon} from '../../../assets/icons/authIcon';
 import {appColors} from '../../../utils/colors';
-import {TextInputUrl} from '../../../components/ui/input/textInput';
+// import {TextInputUrl} from '../../../components/ui/input/textInput';
+import {Formik} from 'formik';
+import {loginValidationSchema} from '../../../utils/validation-schema/authValidationSchema';
+import AppButton from '../../../components/ui/button/mainButton';
+import FormInput from '../../../components/ui/input/textInput';
+import SubmitButton from '../../../components/ui/button/formButton';
 
 interface LoginBottomSheetProps {
   sheetRef: React.RefObject<BottomSheet>;
@@ -37,8 +42,53 @@ const LoginBottomSheet: React.FC<LoginBottomSheetProps> = ({sheetRef}) => {
                 order to register
               </Text>
 
-              <View style={styles.inputContainer}>
-                <TextInputUrl />
+              <View>
+                <Formik
+                  initialValues={{emailOrUsername: '', url: '', password: ''}}
+                  validationSchema={loginValidationSchema}
+                  onSubmit={values => console.log(values)}>
+                  {({handleChange, handleSubmit, values, errors, touched}) => (
+                    <View>
+                      <View
+                        style={{
+                          width: '100%',
+                          flexDirection: 'column',
+                          height: '80%',
+                        }}>
+                        <FormInput
+                          label="URL"
+                          left={<TextInput.Affix text="https:// | " />}
+                          onChangeText={handleChange('url')}
+                          value={values.url}
+                          error={touched.url && errors.url ? errors.url : null}
+                        />
+                        <FormInput
+                          label="Username / Email"
+                          onChangeText={handleChange('emailOrUsername')}
+                          value={values.emailOrUsername}
+                          error={
+                            touched.emailOrUsername && errors.emailOrUsername
+                              ? errors.emailOrUsername
+                              : null
+                          }
+                        />
+                        <FormInput
+                          label="Password"
+                          secureTextEntry={true}
+                          onChangeText={handleChange('password')}
+                          value={values.password}
+                          error={
+                            touched.password && errors.password
+                              ? errors.password
+                              : null
+                          }
+                        />
+                      </View>
+
+                      <SubmitButton text="Login" onPress={handleSubmit} />
+                    </View>
+                  )}
+                </Formik>
               </View>
             </View>
           </View>
@@ -70,8 +120,9 @@ const styles = StyleSheet.create({
   descriptionText: {
     color: appColors.black300,
   },
-  inputContainer: {
+  formContainer: {
     flex: 1,
+    backgroundColor: 'red',
   },
 });
 

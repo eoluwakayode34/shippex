@@ -1,4 +1,6 @@
 import * as yup from 'yup';
+import YupPassword from 'yup-password';
+YupPassword(yup);
 
 export const loginValidationSchema = yup.object().shape({
   emailOrUsername: yup
@@ -12,6 +14,7 @@ export const loginValidationSchema = yup.object().shape({
   url: yup.string().url('Must be a valid URL').required('URL is required'),
   password: yup
     .string()
+    .password()
     .min(8, 'Password must be at least 8 characters')
     .required('Password is required'),
 });

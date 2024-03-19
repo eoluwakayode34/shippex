@@ -1,4 +1,18 @@
 export const appColors = {
   primary: '#2F50C1',
   black300: '#757281',
+  black200: '#A7A3B3',
+  primaryDark: '#f00',
+  white: '#fff',
+  dark: '#000',
+  transparent: 'transparent',
+  notifyBg: '#F2F7FA',
+  grayBorder: '#BEC3D5',
+  dark200: '#4B545A',
+  blue: '#0C60D8',
+  pink: '#E7439C',
+  red: '#f00',
+  green: '#4DC247',
+  orange: '#D94F00',
+  inputBg: '#F4F2F8',
 };

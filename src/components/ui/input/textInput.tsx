@@ -1,96 +1,96 @@
-import {View, Text, StyleSheet} from 'react-native';
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ */
+
+import React, {useState} from 'react';
+import {Text, View} from 'react-native';
+
+import {TextInput, useTheme} from 'react-native-paper';
 import {appColors} from '../../../utils/colors';
 
-export interface InputsMdProps {
-  testID?: string;
-}
+function FormInput({label, error, style, ...otherProps}: any): JSX.Element {
+  const theme = useTheme();
+  const [isFocused, setIsFocused] = useState(false);
 
-export function TextInputUrl(props: InputsMdProps) {
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
   return (
-    <View style={styles.root} testID={props.testID}>
-      <View style={styles.frame40} testID="1:1588"></View>
-      <View style={styles.frame26665} testID="1:1589">
-        <Text style={styles.fixText} testID="1:1590">
-          {`URL`}
-        </Text>
-        <View style={styles.frame26664} testID="1:1591">
-          <Text style={styles.fixText2} testID="1:1592">
-            {`https://`}
-          </Text>
-          <View style={styles.separator} testID="1:1593" />
-          <Text style={styles.fixText3} testID="1:1594">
-            {`www.brandimic.com`}
-          </Text>
-        </View>
+    <View style={{width: '100%'}}>
+      <View
+        style={{
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          width: '100%',
+          marginTop: 20,
+          backgroundColor: appColors.inputBg,
+          paddingHorizontal: 14,
+          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: isFocused ? appColors.primary : appColors.white,
+          paddingVertical: 2,
+          flexDirection: 'row',
+        }}>
+    
+        <TextInput
+          mode="flat"
+          label={
+            <Text
+              style={{
+                color: isFocused ? appColors.black300 : appColors.black200,
+                backgroundColor: appColors.transparent,
+                paddingHorizontal: 2,
+              }}>
+              {label}
+            </Text>
+          }
+          theme={{
+            fonts: {
+              bodyLarge: {
+                ...theme.fonts.bodyLarge,
+                fontFamily: 'sf-pro-text-regular',
+                fontSize: 16,
+              },
+            },
+          }}
+          placeholder={label}
+          style={[
+            {
+              width: '100%',
+              backgroundColor: appColors.transparent,
+              fontSize: 16,
+              color: appColors.transparent,
+              height: 60,
+              paddingHorizontal: 6,
+            },
+            style,
+          ]}
+          error={error}
+          activeOutlineColor={appColors.primary}
+          outlineColor={appColors.white}
+          textColor={appColors.primary}
+          placeholderTextColor={appColors.black200}
+          underlineStyle={{
+            borderWidth: 0,
+            borderRadius: 5,
+            backgroundColor: appColors.inputBg,
+          }}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          {...otherProps}
+        />
       </View>
+      {error && <Text style={{color: 'red', fontSize: 12}}>{error}</Text>}
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  root: {
-    flexDirection: 'row',
-    height: 56,
-    paddingTop: 6,
-    paddingLeft: 14,
-    paddingRight: 14,
-    paddingBottom: 6,
-    alignItems: 'center',
-    rowGap: 12,
-    columnGap: 12,
-    alignSelf: 'stretch',
-    borderRadius: 10,
-    backgroundColor: 'rgba(244, 242, 248, 0.501960813999176)',
-  },
-  frame40: {
-    flexDirection: 'row',
-    width: 52,
-    height: 14,
-    alignItems: 'center',
-    rowGap: 8,
-    columnGap: 8,
-    left: 14,
-    top: 16,
-  },
-  fixText: {
-    color: appColors.primary,
-    fontFamily: 'Inter',
-    fontSize: 11,
-    fontStyle: 'normal',
-    fontWeight: '400',
-    lineHeight: 13,
-  },
-  fixText2: {
-    color: appColors.primary,
-    fontFamily: 'Inter',
-    fontSize: 16,
-    fontStyle: 'normal',
-    fontWeight: '400',
-  },
-  separator: {
-    width: 1,
-    height: 16,
-    borderRadius: 99,
-    backgroundColor: 'rgba(21, 72, 118, 0.20000000298023224)',
-  },
-  fixText3: {
-    color: appColors.primary,
-    fontFamily: 'Inter',
-    fontSize: 16,
-    fontStyle: 'normal',
-    fontWeight: '400',
-  },
-  frame26665: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    rowGap: 4,
-    columnGap: 4,
-  },
-  frame26664: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    rowGap: 6,
-    columnGap: 6,
-  },
-});
+export default FormInput;
