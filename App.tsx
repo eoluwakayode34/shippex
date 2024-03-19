@@ -9,6 +9,8 @@ import React, {useState} from 'react';
 
 import Splash from './src/components/layout/splash';
 import WelcomeScreen from './src/screens/auth/welcome';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+
 import {
   MD3LightTheme as DefaultTheme,
   PaperProvider,
@@ -24,14 +26,27 @@ const fontConfig = {
     fontWeight: '400',
     letterSpacing: 0.5,
     lineHeight: 22,
-    fontSize: 16,
+    fontSize: 17,
   },
   bodyLarge: {
-    fontFamily: 'sf-pro-text-medium',
+    fontFamily: 'sf-pro-text-bold',
     fontSize: 17,
-    fontWeight: 'bold',
+    fontWeight: '500',
     letterSpacing: 0.15,
     lineHeight: 24,
+  },
+  bodyMedium: {
+    fontFamily: 'sf-pro-text-regular',
+    fontSize: 17,
+    fontWeight: '500',
+    letterSpacing: -0.5,
+    lineHeight: 24,
+  },
+  headlineLarge: {
+    fontFamily: 'sf-pro-text-semibold',
+    fontSize: 34,
+    letterSpacing: -1,
+    fontWeight: '500',
   },
 } as const;
 
@@ -47,13 +62,15 @@ const theme = {
 function App(): React.JSX.Element {
   const [closeSplash, setCloseSplash] = useState(true);
   return (
-    <PaperProvider theme={theme}>
-      {closeSplash ? (
-        <Splash setCloseSplash={setCloseSplash} />
-      ) : (
-        <WelcomeScreen />
-      )}
-    </PaperProvider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <PaperProvider theme={theme}>
+        {closeSplash ? (
+          <Splash setCloseSplash={setCloseSplash} />
+        ) : (
+          <WelcomeScreen />
+        )}
+      </PaperProvider>
+    </GestureHandlerRootView>
   );
 }
 
