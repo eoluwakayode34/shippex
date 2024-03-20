@@ -1,5 +1,4 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {useDebouncedCallback} from 'use-debounce';
+import React, {useMemo, useRef, useState} from 'react';
 import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {Text} from 'react-native-paper';
 import {ShippexLogoPrimary} from '../../assets/image/authImage';
