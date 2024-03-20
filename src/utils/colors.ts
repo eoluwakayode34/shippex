@@ -1,7 +1,10 @@
 export const appColors = {
   primary: '#2F50C1',
+  primary300: '#6E91EC',
   black300: '#757281',
+  black100: '#F4F2F8',
   black200: '#A7A3B3',
+  black400: '#58536E',
   primaryDark: '#f00',
   white: '#fff',
   dark: '#000',

@@ -1,7 +1,7 @@
 import React from 'react';
 import {SvgFromXml} from 'react-native-svg';
 import {
-    callIcon,
+  callIcon,
   checkBoxIcon,
   closeExpandCardIcon,
   expandCardIcon,
