@@ -32,15 +32,6 @@ function FormInput({label, error, style, ...otherProps}: any): JSX.Element {
         ]}>
         <TextInput
           mode="flat"
-          label={
-            <Text
-              style={[
-                styles.labelText,
-                {color: isFocused ? appColors.black300 : appColors.black200},
-              ]}>
-              {label}
-            </Text>
-          }
           theme={{
             fonts: {
               bodyLarge: {

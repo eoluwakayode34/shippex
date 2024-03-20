@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import {StyleSheet, View} from 'react-native';
 import {appColors} from '../../utils/colors';
@@ -6,14 +6,18 @@ import CustomBackdrop from './customBackdrop';
 import {Text} from 'react-native-paper';
 import ShipmentStatusButton from '../ui/button/shipmentStatusButton';
 import {Easing} from 'react-native-reanimated';
+import {shipmentStatusData, statusType} from '../../utils/data/shipmentList';
 
 interface FilterShipmentBottomSheetProps {
   sheetRef: React.RefObject<BottomSheet>;
+  setFilterStatus: React.Dispatch<React.SetStateAction<statusType[]>>;
 }
 
 const FilterShipmentBottomSheet: React.FC<FilterShipmentBottomSheetProps> = ({
   sheetRef,
+  setFilterStatus,
 }) => {
+  const [shipmentStatus, setShipmentStatus] = useState<statusType[]>([]);
   const snapPoints = useMemo(() => ['35%', '50%', '98%'], []);
 
   const renderBackdropComponent = (backdropProps: any) => (
@@ -24,6 +28,7 @@ const FilterShipmentBottomSheet: React.FC<FilterShipmentBottomSheetProps> = ({
     sheetRef.current?.close({duration: 300, easing: Easing.linear});
   };
   const handleDone = () => {
+    setFilterStatus(shipmentStatus);
     sheetRef.current?.close({duration: 300, easing: Easing.linear});
   };
 
@@ -52,19 +57,21 @@ const FilterShipmentBottomSheet: React.FC<FilterShipmentBottomSheetProps> = ({
               <Text style={styles.textHeadingGray}>SHIPMENT STATUS</Text>
 
               <View style={styles.shipmentStatusItemContainer}>
-                <ShipmentStatusButton onPress={() => {}} text="received" />
-                <ShipmentStatusButton onPress={() => {}} text="Putaway" />
-                <ShipmentStatusButton onPress={() => {}} text="received" />
-                <ShipmentStatusButton onPress={() => {}} text="Putaway" />
-                <ShipmentStatusButton onPress={() => {}} text="received" />
-                <ShipmentStatusButton onPress={() => {}} text="Putaway" />
-                <ShipmentStatusButton onPress={() => {}} text="received" />
-                <ShipmentStatusButton onPress={() => {}} text="Putaway" />
-                <ShipmentStatusButton onPress={() => {}} text="Putaway" />
-                <ShipmentStatusButton onPress={() => {}} text="received" />
-                <ShipmentStatusButton onPress={() => {}} text="Putaway" />
-                <ShipmentStatusButton onPress={() => {}} text="received" />
-                <ShipmentStatusButton onPress={() => {}} text="Putaway" />
+                {shipmentStatusData.map((item: statusType, index) => (
+                  <ShipmentStatusButton
+                    key={index}
+                    onPress={() =>
+                      setShipmentStatus(prev => {
+                        if (prev.includes(item)) {
+                          return prev.filter(status => status !== item);
+                        } else {
+                          return [...prev, item];
+                        }
+                      })
+                    }
+                    text={item}
+                  />
+                ))}
               </View>
             </View>
           </View>
