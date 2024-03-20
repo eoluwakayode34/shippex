@@ -1,22 +1,38 @@
 import React from 'react';
 
 import FormInput from './textInput';
-import {StyleSheet, View} from 'react-native';
-import {SearchIcon} from '../../../assets/icons/dashboardIcon';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  CloseSearchActiveIcon,
+  SearchActiveIcon,
+  SearchIcon,
+} from '../../../assets/icons/dashboardIcon';
 
-export const FormSearchInput = ({...otherProps}: any) => {
+export const FormSearchInput = ({
+  filterText,
+  handleCloseSearch,
+  ...otherProps
+}: any) => {
   return (
     <View style={styles.inputContainer}>
       <FormInput label="Search" style={styles.input} {...otherProps} />
       <View style={styles.searchContainer}>
-        <SearchIcon />
+        {filterText ? <SearchActiveIcon /> : <SearchIcon />}
       </View>
+      {filterText && (
+        <TouchableOpacity
+          onPress={handleCloseSearch}
+          style={styles.closeSeachContainer}>
+          <CloseSearchActiveIcon />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   searchContainer: {position: 'absolute', top: '45%', left: 10},
-  input: {paddingLeft: 20, height: 44},
+  closeSeachContainer: {position: 'absolute', top: '45%', right: 10},
+  input: {paddingHorizontal: 20, height: 44},
   inputContainer: {position: 'relative'},
 });

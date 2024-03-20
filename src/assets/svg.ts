@@ -39,6 +39,17 @@ export const searchIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill=
 <path d="M16.927 17.0401L20.4001 20.4001M19.2801 11.4401C19.2801 15.77 15.77 19.2801 11.4401 19.2801C7.11019 19.2801 3.6001 15.77 3.6001 11.4401C3.6001 7.11019 7.11019 3.6001 11.4401 3.6001C15.77 3.6001 19.2801 7.11019 19.2801 11.4401Z" stroke="#A7A3B3" stroke-width="2" stroke-linecap="round"/>
 </svg>
 `;
+export const searchActiveIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16.927 17.04L20.4001 20.4M19.2801 11.44C19.2801 15.7699 15.77 19.28 11.4401 19.28C7.11019 19.28 3.6001 15.7699 3.6001 11.44C3.6001 7.11009 7.11019 3.60001 11.4401 3.60001C15.77 3.60001 19.2801 7.11009 19.2801 11.44Z" stroke="#6E91EC" stroke-width="2" stroke-linecap="round"/>
+</svg>
+
+`;
+export const closeSearchActiveIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M18 6L6 18M18 18L6 6" stroke="#6E91EC" stroke-width="2" stroke-linecap="round"/>
+</svg>
+
+
+`;
 
 export const filterIcon = `<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M6.71154 12H17.7885M4.25 7H20.25M10.4038 17H14.0962" stroke="#58536E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

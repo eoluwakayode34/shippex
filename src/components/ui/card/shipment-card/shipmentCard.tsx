@@ -271,6 +271,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderColor: '#6E91EC',
     overflow: 'hidden',
+    marginBottom: 15,
   },
   shipmentDetailsContainer: {
     flexDirection: 'row',

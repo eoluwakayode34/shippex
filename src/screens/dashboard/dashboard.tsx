@@ -1,7 +1,9 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {useDebouncedCallback} from 'use-debounce';
 import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {Text} from 'react-native-paper';
 import {ShippexLogoPrimary} from '../../assets/image/authImage';
+
 import {
   CheckBoxIcon,
   FilterIcon,
@@ -16,30 +18,47 @@ import FilterShipmentBottomSheet from '../../components/bottom-sheet/filterShipm
 import BottomSheet from '@gorhom/bottom-sheet';
 import {Easing} from 'react-native-reanimated';
 import {useUserStore} from '../../stores/userStore';
-import {FlatList} from 'react-native';
+import {FlashList} from '@shopify/flash-list';
 import {shipmentData, statusType} from '../../utils/data/shipmentList';
 
 const DashboardScreen: React.FC = () => {
   const user = useUserStore(state => state.user);
+  const [filterText, setFilterText] = useState('');
+  const [filterStatus, setFilterStatus] = useState<statusType[]>([]);
 
   const [allMarked, setAllMarked] = useState(false);
   const filterStatusRef = useRef<BottomSheet>(null);
 
-  const [filterStatus, setFilterStatus] = useState<statusType[]>([]);
-  const [filterText, setFilterText] = useState('');
-  const filteredData = shipmentData.filter(item => {
-    if (filterStatus.length === 0 && filterText === '') {
-      return true;
-    }
-    if (filterStatus.length !== 0 && !filterStatus.includes(item.status)) {
-      return false;
-    }
+  // const debouncedSetFilterText = useDebouncedCallback(
+  //   (value: React.SetStateAction<string>) => setFilterText(value),
+  //   500,
+  //   {maxWait: 2000},
+  // );
 
-    if (filterText !== '' && !item.number.includes(filterText)) {
-      return false;
-    }
-    return true;
-  });
+  // useEffect(
+  //   () => () => {
+  //     debouncedSetFilterText.flush();
+  //   },
+  //   [debouncedSetFilterText],
+  // );
+
+  const filteredData = useMemo(
+    () =>
+      shipmentData.filter(item => {
+        if (filterStatus.length === 0 && filterText === '') {
+          return true;
+        }
+        if (filterStatus.length !== 0 && !filterStatus.includes(item.status)) {
+          return false;
+        }
+
+        if (filterText !== '' && !item.number.includes(filterText)) {
+          return false;
+        }
+        return true;
+      }),
+    [filterStatus, filterText],
+  );
   const handleMarkAll = () => {
     setAllMarked(prev => !prev);
   };
@@ -73,7 +92,12 @@ const DashboardScreen: React.FC = () => {
           <Text variant="headlineMedium">{user?.full_name}</Text>
         </View>
 
-        <FormSearchInput onChangeText={(e: any) => setFilterText(e)} />
+        <FormSearchInput
+          filterText={filterText}
+          value={filterText}
+          handleCloseSearch={() => setFilterText('')}
+          onChangeText={(e: any) => setFilterText(e)}
+        />
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={handleFilterPress} style={styles.button}>
@@ -102,16 +126,13 @@ const DashboardScreen: React.FC = () => {
             </TouchableOpacity>
           </View>
           <View style={{paddingVertical: 10, height: '65%'}}>
-            <FlatList
+            <FlashList
               data={filteredData}
-              contentContainerStyle={styles.flatListContainer}
               renderItem={({item}) => (
                 <ShipmentCard data={item} marked={allMarked} />
               )}
               keyExtractor={item => item.id}
-              initialNumToRender={10}
-              maxToRenderPerBatch={10}
-              removeClippedSubviews={true}
+              estimatedItemSize={30}
             />
           </View>
         </View>
@@ -168,9 +189,6 @@ const styles = StyleSheet.create({
   },
   textWhite: {color: 'white'},
   headingMedium: {color: appColors.primary, fontSize: 18},
-  flatListContainer: {
-    gap: 10,
-  },
 });
 
 export default DashboardScreen;

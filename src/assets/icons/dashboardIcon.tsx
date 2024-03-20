@@ -4,10 +4,12 @@ import {
   callIcon,
   checkBoxIcon,
   closeExpandCardIcon,
+  closeSearchActiveIcon,
   expandCardIcon,
   filterIcon,
   notficationIcon,
   scanIcon,
+  searchActiveIcon,
   searchIcon,
   toLocationIcon,
   toLocationbigIcon,
@@ -24,6 +26,12 @@ export const NotficationIcon = ({width = 40, height = 40}: SvgProp) => (
 );
 export const SearchIcon = ({width = 24, height = 24}: SvgProp) => (
   <SvgFromXml xml={searchIcon} width={width} height={height} />
+);
+export const SearchActiveIcon = ({width = 24, height = 24}: SvgProp) => (
+  <SvgFromXml xml={searchActiveIcon} width={width} height={height} />
+);
+export const CloseSearchActiveIcon = ({width = 24, height = 24}: SvgProp) => (
+  <SvgFromXml xml={closeSearchActiveIcon} width={width} height={height} />
 );
 export const FilterIcon = ({width = 24, height = 24}: SvgProp) => (
   <SvgFromXml xml={filterIcon} width={width} height={height} />

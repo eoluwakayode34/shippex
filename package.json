@@ -12,6 +12,7 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.6.1",
     "@react-native-async-storage/async-storage": "^1.22.3",
+    "@shopify/flash-list": "^1.6.4",
     "axios": "^1.6.8",
     "formik": "^2.4.5",
     "lottie-react-native": "^6.7.0",
@@ -24,6 +25,7 @@
     "react-native-svg": "^15.1.0",
     "react-native-vector-icons": "^10.0.3",
     "react-query": "^3.39.3",
+    "use-debounce": "^10.0.0",
     "yup": "^1.4.0",
     "yup-password": "^0.3.0",
     "zustand": "^4.5.2"

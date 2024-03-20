@@ -28,7 +28,11 @@ function FormInput({label, error, style, ...otherProps}: any): JSX.Element {
       <View
         style={[
           styles.inputContainer,
-          {borderColor: isFocused ? appColors.primary : appColors.transparent},
+          {
+            borderColor: isFocused
+              ? appColors.primary300
+              : appColors.transparent,
+          },
         ]}>
         <TextInput
           mode="flat"
