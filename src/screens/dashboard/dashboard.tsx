@@ -149,6 +149,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     width: '100%',
+    backgroundColor: appColors.white,
+    height: '100%',
   },
   header: {
     flexDirection: 'row',

@@ -1,5 +1,5 @@
 import React from 'react';
-import {SvgFromXml} from 'react-native-svg';
+import {SvgFromXml, SvgXml} from 'react-native-svg';
 import {
   callIcon,
   checkBoxIcon,
@@ -8,18 +8,23 @@ import {
   expandCardIcon,
   filterIcon,
   notficationIcon,
+  profileBottomIcon,
+  scanBottomIcon,
   scanIcon,
   searchActiveIcon,
   searchIcon,
+  shipmentButtomIcon,
   toLocationIcon,
   toLocationbigIcon,
   unCheckBoxIcon,
+  walletBottomIcon,
   whatsAppIcon,
 } from '../svg';
 
 type SvgProp = {
   width?: number;
   height?: number;
+  fill?: string;
 };
 export const NotficationIcon = ({width = 40, height = 40}: SvgProp) => (
   <SvgFromXml xml={notficationIcon} width={width} height={height} />
@@ -62,4 +67,31 @@ export const CallIcon = ({width = 24, height = 24}: SvgProp) => (
 );
 export const WhatsAppIcon = ({width = 24, height = 24}: SvgProp) => (
   <SvgFromXml xml={whatsAppIcon} width={width} height={height} />
+);
+
+export const ShipmentBottomIcon = ({
+  width = 24,
+  height = 24,
+  fill,
+}: SvgProp) => (
+  <SvgFromXml
+    xml={shipmentButtomIcon}
+    fill={fill}
+    width={width}
+    height={height}
+  />
+);
+export const ScanBottomIcon = ({width = 24, height = 24, fill}: SvgProp) => (
+  <SvgFromXml xml={scanBottomIcon} fill={fill} width={width} height={height} />
+);
+export const ProfileBottomIcon = ({width = 24, height = 24, fill}: SvgProp) => (
+  <SvgFromXml
+    xml={profileBottomIcon}
+    fill={fill}
+    width={width}
+    height={height}
+  />
+);
+export const WalletBottomIcon = ({width = 24, height = 24, fill}: SvgProp) => (
+  <SvgXml xml={walletBottomIcon} fill={fill} width={width} height={height} />
 );

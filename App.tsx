@@ -6,7 +6,7 @@
  */
 
 import React, {useEffect, useState} from 'react';
-
+import {NavigationContainer} from '@react-navigation/native';
 import Splash from './src/components/layout/splash';
 import WelcomeScreen from './src/screens/auth/welcome';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -20,6 +20,7 @@ import {
 import {Platform} from 'react-native';
 import {useUserStore} from './src/stores/userStore';
 import DashboardScreen from './src/screens/dashboard/dashboard';
+import AppBottomTab from './src/navigation/bottomTab';
 
 const queryClient = new QueryClient();
 
@@ -87,17 +88,19 @@ function App(): React.JSX.Element {
     <GestureHandlerRootView style={{flex: 1}}>
       <PaperProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
-          {user ? (
-            <DashboardScreen />
-          ) : (
-            <>
-              {closeSplash ? (
-                <Splash setCloseSplash={setCloseSplash} />
-              ) : (
-                <WelcomeScreen />
-              )}
-            </>
-          )}
+          <NavigationContainer>
+            {user ? (
+              <AppBottomTab />
+            ) : (
+              <>
+                {closeSplash ? (
+                  <Splash setCloseSplash={setCloseSplash} />
+                ) : (
+                  <WelcomeScreen />
+                )}
+              </>
+            )}
+          </NavigationContainer>
         </QueryClientProvider>
       </PaperProvider>
     </GestureHandlerRootView>
