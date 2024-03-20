@@ -53,6 +53,18 @@ const fontConfig = {
     letterSpacing: -1,
     fontWeight: '500',
   },
+  headlineMedium: {
+    fontFamily: 'sf-pro-text-semibold',
+    fontSize: 28,
+    letterSpacing: -1,
+    lineHeight: 36,
+  },
+  headlineSmall: {
+    fontFamily: 'sf-pro-text-semibold',
+    fontSize: 22,
+    letterSpacing: -1,
+    lineHeight: 36,
+  },
 } as const;
 
 const theme = {
@@ -75,12 +87,16 @@ function App(): React.JSX.Element {
     <GestureHandlerRootView style={{flex: 1}}>
       <PaperProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
-          {closeSplash ? (
-            <Splash setCloseSplash={setCloseSplash} />
-          ) : user ? (
+          {user ? (
             <DashboardScreen />
           ) : (
-            <WelcomeScreen />
+            <>
+              {closeSplash ? (
+                <Splash setCloseSplash={setCloseSplash} />
+              ) : (
+                <WelcomeScreen />
+              )}
+            </>
           )}
         </QueryClientProvider>
       </PaperProvider>
